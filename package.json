@@ -1,0 +1,27 @@
+{
+  "name": "angular-notes-api",
+  "version": "1.0.0",
+  "description": "Simple API for angular-notes project. Created rather to show the functionality of the front-end part.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blacksempai/angular-notes-api.git"
+  },
+  "keywords": [
+    "nodeJS",
+    "Angular",
+    "API",
+    "backend",
+    "express",
+    "notes"
+  ],
+  "author": "Andriy Moskalenko <benjaminfranclin1998@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blacksempai/angular-notes-api/issues"
+  },
+  "homepage": "https://github.com/blacksempai/angular-notes-api#readme"
+}
