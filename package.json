@@ -2,9 +2,12 @@
   "name": "angular-notes-api",
   "version": "1.0.0",
   "description": "Simple API for angular-notes project. Created rather to show the functionality of the front-end part.",
-  "main": "index.js",
+  "main": "src/app.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf ./build && tsc",
+    "start": "npm run build && node build/index.js",
+    "start:dev": "nodemon"
   },
   "repository": {
     "type": "git",
@@ -12,10 +15,13 @@
   },
   "keywords": [
     "nodeJS",
-    "Angular",
-    "API",
-    "backend",
+    "node",
+    "js",
+    "javascript",
+    "typescript",
     "express",
+    "api",
+    "angular",
     "notes"
   ],
   "author": "Andriy Moskalenko <benjaminfranclin1998@gmail.com>",
@@ -23,5 +29,12 @@
   "bugs": {
     "url": "https://github.com/blacksempai/angular-notes-api/issues"
   },
-  "homepage": "https://github.com/blacksempai/angular-notes-api#readme"
+  "homepage": "https://github.com/blacksempai/angular-notes-api#readme",
+  "devDependencies": {
+    "@types/node": "^15.0.1",
+    "nodemon": "^2.0.7",
+    "rimraf": "^3.0.2",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  }
 }
