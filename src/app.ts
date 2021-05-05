@@ -1,26 +1,21 @@
-import express from "express";
-import fs from 'fs';
-import path from 'path';
-const cors = require('cors');
+import express from 'express';
+import mongoose from 'mongoose'
+import cors from 'cors';
+import morgan from 'morgan';
+import config from './config/config'
+import { router as authRoutes } from './routes/auth';
+import { router as noteRoutes } from './routes/note';
+
+mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(()=>{console.log('Mongo DB Connected')})
+    .catch((err)=>{console.log(err)});
 
 const app = express();
+app.use(morgan('dev'));
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 app.use(cors());
+app.use('/api/auth', authRoutes);
+app.use('/api/note', noteRoutes);
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT,()=>{
-    console.log(`Server has been started on ${PORT}...`);
-})
-
-app.get('/api/notes', (req: express.Request, res: express.Response) => {
-    fs.readFile(path.join(__dirname,'models','notes.json'),(err,data)=>{
-        if(err){
-            console.error(err);
-            res.writeHead(500);
-            res.end();
-        }
-        else {
-            res.end(data);
-        }
-    })
-})
+export { app };
