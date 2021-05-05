@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import config from '../config/config'
 import User from '../models/User'
+import errorHandler from '../utils/error-handler'
 
 export async function login (req: express.Request, res: express.Response){
     const candidate = await User.findOne({email: req.body.email});
@@ -51,7 +52,7 @@ export async function register (req: express.Request, res: express.Response){
             res.status(201).json(user);
         }
         catch(e){
-            //TODO: Handle Error
+            errorHandler(res, e)
         }
     }
 }
