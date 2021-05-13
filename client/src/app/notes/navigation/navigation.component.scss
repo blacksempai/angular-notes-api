@@ -1,0 +1,34 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$primary: mat-palette($mat-blue,800);
+$secondary: mat-palette($mat-indigo,200);
+$accent: mat-palette($mat-pink,500);
+
+.type-icon {
+  color: #757575;
+  margin-right: 5px;
+}
+
+.node {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.controls {
+  padding-left: 2rem;
+  display: none;
+}
+
+.mat-tree-node:hover  {
+  background: #eee;
+  .controls {
+    display: block;
+  }
+}
+
+.type-icon:hover {
+  background-color: #ddd;
+  border-radius: 3px;
+}

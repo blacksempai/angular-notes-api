@@ -1,0 +1,81 @@
+<div>
+  <button mat-icon-button>
+    <mat-icon class="type-icon" matTooltip="Filter search"
+    aria-label="Button for filtering search">filter_alt</mat-icon>
+  </button>
+  <mat-form-field>
+    <mat-label>Search</mat-label>
+    <input matInput aria-label="Search input">
+  </mat-form-field>
+  <button mat-icon-button>
+    <mat-icon class="type-icon" matTooltip="Create new note"
+    aria-label="Button for creating a new note">note_add</mat-icon>
+  </button>
+  <button mat-icon-button>
+    <mat-icon class="type-icon" matTooltip="Create new folder"
+    aria-label="Button for creating a new folder">create_new_folder</mat-icon>
+  </button>
+</div>
+
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+    <button mat-icon-button disabled></button>
+    <div class="node" (click)="noteSelect(node)">
+      <mat-icon class="type-icon">
+        {{ node.isFolder ? 'folder' : 'description' }}
+      </mat-icon>
+        {{node.name}}
+    </div>
+    <div class="controls">
+      <button mat-icon-button *ngIf="node.isFolder">
+        <mat-icon class="type-icon" matTooltip="Create new note"
+        aria-label="Button for creating a new note">add_note</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="node.isFolder">
+        <mat-icon class="type-icon" matTooltip="Create new folder"
+        aria-label="Button for creating a new folder">create_new_folder</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon class="type-icon" matTooltip="Edit"
+        aria-label="Button for editing">edit</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon class="type-icon" matTooltip="Delete"
+        aria-label="Button for deleting">delete</mat-icon>
+      </button>
+    </div>
+  </mat-tree-node>
+
+  <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+    <button mat-icon-button matTreeNodeToggle
+            [attr.aria-label]="'Toggle ' + node.name">
+      <mat-icon class="mat-icon-rtl-mirror">
+        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+      </mat-icon>
+    </button>
+    <div class="node" (click)="noteSelect(node)">
+      <mat-icon class="type-icon">
+        {{ node.isFolder ? treeControl.isExpanded(node) ? 'folder_open' : 'folder' : 'description' }}
+      </mat-icon>
+      {{node.name}}
+    </div>
+    <div class="controls">
+      <button mat-icon-button *ngIf="node.isFolder">
+        <mat-icon class="type-icon" matTooltip="Create new note"
+        aria-label="Button for creating a new note">note_add</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="node.isFolder">
+        <mat-icon class="type-icon" matTooltip="Create new folder"
+        aria-label="Button for creating a new folder">create_new_folder</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon class="type-icon" matTooltip="Edit"
+        aria-label="Button for editing">edit</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon class="type-icon" matTooltip="Delete"
+        aria-label="Button for deleting">delete</mat-icon>
+      </button>
+    </div>
+  </mat-tree-node>
+</mat-tree>

@@ -1,0 +1,16 @@
+<mat-toolbar>
+  <span>Angular Notes</span>
+</mat-toolbar>
+<mat-drawer-container class="container" autosize>
+  <mat-drawer #drawer class="sidenav" mode="side">
+    <app-navigation (noteSelectedEvent)="selectNote($event)"></app-navigation>
+  </mat-drawer>
+
+  <div class="sidenav-content">
+    <app-note [note]="selectedNote"></app-note>
+    <button type="button" mat-button (click)="drawer.toggle()">
+      Toggle sidenav
+    </button>
+  </div>
+
+</mat-drawer-container>
