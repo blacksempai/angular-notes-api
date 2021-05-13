@@ -8,7 +8,7 @@ import passportConfig from './middleware/passport'
 import { router as authRoutes } from './routes/auth';
 import { router as noteRoutes } from './routes/note';
 
-mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true,  useFindAndModify: false})
     .then(()=>{console.log('MongoDB Connected')})
     .catch((err)=>{console.log(err)});
 

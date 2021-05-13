@@ -11,21 +11,26 @@ const noteSchema = new Schema({
         required: true
     },
     content: {
-        type: String
+        type: String,
+        required: false
     },
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'users',
+        required: true
     },
     parent: {
         type: Schema.Types.ObjectId,
         ref: 'notes'
     },
-    children: [{
-        type: Schema.Types.ObjectId,
-        ref: 'notes'
-    }]
+    children:{
+        type:[{ 
+            type: Schema.Types.ObjectId,
+            ref: 'notes'
+        }],
+        default: undefined
+    } 
 });
 const Note = mongoose.model('notes', noteSchema);
 
-export default Note;
+export default Note;    

@@ -1,13 +1,13 @@
-import express from 'express';
+import { Request, Response} from 'express';
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import config from '../config/config'
 import User from '../models/User'
 import errorHandler from '../utils/error-handler'
 
-export async function login (req: express.Request, res: express.Response){
+export async function login (req: Request, res: Response){
     const candidate = await User.findOne({email: req.body.email});
-
+    
     if(candidate) {
         const isPasswordCorrect = bcrypt.compareSync(req.body.password, candidate.password);
         if (isPasswordCorrect) {
@@ -32,7 +32,7 @@ export async function login (req: express.Request, res: express.Response){
     }
 }
 
-export async function register (req: express.Request, res: express.Response){
+export async function register (req: Request, res: Response){
     const candidate = await User.findOne({email: req.body.email});
 
     if(candidate) {

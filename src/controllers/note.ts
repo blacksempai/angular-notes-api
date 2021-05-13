@@ -1,74 +1,118 @@
-import express from 'express';
+import { TRequest } from '../interfaces/tRequest';
+import { INote } from '../interfaces/INote';
+import { Request ,Response } from 'express';
 import Note from '../models/Note';
 import errorHandler from '../utils/error-handler';
+import { ClientSession } from 'mongoose';
 
 
-export function getAll (req: express.Request, res: express.Response){
-    res.status(200).json(
-        [
-            {
-              name: 'components',
-              type: 'folder',
-              children: [
-                {
-                  name: 'src',
-                  type: 'folder',
-                  children: [
-                    {
-                      name: 'cdk',
-                      type: 'folder',
-                      children: [
-                        { name: 'package.json', type: 'file', content: '{"name":"angular-notes"}' },
-                        { name: 'BUILD.bazel', type: 'file', content: 'dafakIsBazel?' },
-                      ]
-                    },
-                    { name: 'material', type: 'folder' }
-                  ]
-                }
-              ]
-            },
-            {
-              name: 'angular',
-              type: 'folder',
-              children: [
-                {
-                  name: 'packages',
-                  type: 'folder',
-                  children: [
-                    { name: '.travis.yml', type: 'file', content: "trafisssss" },
-                    { name: 'firebase.json', type: 'file', content: "firebase is the best" }
-                  ]
-                },
-                { name: 'package.json', type: 'file', content: '{"name":"angular-notes"}' }
-              ]
-            },
-            {
-              name: 'angularjs',
-              type: 'folder',
-              children: [
-                { name: 'gulpfile.js', type: 'file', content: 'gulp' },
-                { name: 'README.md', type: 'file', content: 'Angular Notes App' }
-              ]
-            }
-          ]
-    );
+export async function getAllAsTree (req: Request, res: Response){
+    try {
+      let notes: INote[] = await Note.find();
+      notes = notes.map<INote>(note => {
+        if(note.children)
+        note.children = note.children.map<INote>((childId: String | INote)=>{
+          let child = notes.find(n =>{
+            return n._id?.toString() == childId.toString();
+          });
+          if(child) return child;
+          else throw 'DB structure is corrupted';
+        })
+        return note;
+      }).filter(note => !note.parent);
+      res.status(200).json(notes);
+    }
+    catch(e) {
+      errorHandler(res, e);
+    }
+}
+export async function getAll (req: Request, res: Response){
+  try {
+    let notes: INote[] = await Note.find();
+    res.status(200).json(notes);
+  }
+  catch(e) {
+    errorHandler(res, e);
+  }
 }
 
-export function create (req: express.Request, res: express.Response){
-    res.status(200).json({
-        name: req.body.name,
-        type: req.body.type,
-    });
+export async function create (req: TRequest, res: Response){
+    try {
+      let note: INote = getNoteFromRequest(req);
+
+      const session = await Note.startSession();
+      await session.withTransaction(async () => {
+        note = await new Note(note).save({session});
+        if(note.parent) await Note.findByIdAndUpdate(
+          { _id: note.parent },
+          { $push: { children: [note._id] } },
+          { new: true, session});
+      });
+      session.endSession();
+
+      res.status(201).json(note);
+    }
+    catch(e) {
+      errorHandler(res, e);
+    }
 }
 
-export function update (req: express.Request, res: express.Response){
-    res.status(200).json({
-        note: true
-    });
+function getNoteFromRequest(req: TRequest): INote {
+  return req.body.isFolder ? {
+    name: req.body.name,
+    isFolder: true,
+    user: req?.user?._id,
+    parent: req.body.parent,
+    children: []
+  } : {
+    name: req.body.name,
+    isFolder: false,
+    user: req?.user?._id,
+    parent: req.body.parent,
+    content: req.body.content
+  }
 }
 
-export function remove (req: express.Request, res: express.Response){
-    res.status(200).json({
-        note: true
-    });
+
+export async function update (req: Request, res: Response){
+    try {
+      let note: INote;
+      if(req.body.isFolder){
+        note = await Note.findOneAndUpdate({ _id: req.body._id }, {name: req.body.name }, {new: true});
+      }
+      else {
+        note = await Note.findOneAndUpdate({ _id: req.body._id }, {$set: req.body}, {new: true});
+      }
+      res.status(200).json(note);
+    }
+    catch(e) {
+      errorHandler(res, e);
+    }
+}
+
+export async function remove (req: Request, res: Response){
+    try {
+      const session = await Note.startSession();
+      await session.withTransaction(async () => {
+        await Note.updateOne(
+          { _id: req.body.parent},
+          {$pull: {children:{_id:req.body._id}}},
+          {session});
+        removeRecursive(req.body._id,session);
+      });
+      session.endSession();
+      res.status(200).json({
+        message: "Removed successfully"
+      });
+    }
+    catch(e) {
+      errorHandler(res, e);
+    }
+}
+
+async function removeRecursive(noteId: String, session: ClientSession){
+  const note = await Note.findByIdAndRemove({ _id: noteId},{session});
+  if (note.children){
+    note.children.forEach((n: String) => removeRecursive(n, session))
+  }
 }
