@@ -1,16 +1,31 @@
-<div *ngIf="note">
-  <ng-template *ngIf="!note.isFolder; else folder">
-
-  </ng-template>
+<div *ngIf="note; else welcome">
+  <header>
+    <div class="name">{{ note.name }}</div>
+    <div class="info">
+      <p>User: {{ note.user.email }}</p>
+      <p>Date: {{ note.date | date:'short' }}</p>
+    </div>
+  </header>
+  <mat-divider></mat-divider>
+  <div class="note" *ngIf="!note.isFolder; else folder">
+    {{ note.content }}
+  </div>
   <ng-template #folder>
-
+    <div class="folder">
+      <div class="item" *ngFor="let item of note.children">
+        <mat-icon [inline]="true" class="item-icon">{{ item.isFolder ? 'folder' : 'description' }}</mat-icon>
+        <div class="item-name">{{ item.name }}</div>
+      </div>
+    </div>
   </ng-template>
-  {{ note.content }}
 </div>
 
 <ng-template #welcome>
-  <h1>Welcome to Angular Notes App</h1>
-  <p>
-    You can start from creating or oppening a note from Side Navigation Bar.
-  </p>
+  <div class="welcome">
+    <h1>Welcome to Angular Notes App</h1>
+    <img src="../../../assets/logo.png" alt="logo" srcset="">
+    <p>
+      You can start from creating or oppening a note from Side Navigation Bar.
+    </p>
+  </div>
 </ng-template>

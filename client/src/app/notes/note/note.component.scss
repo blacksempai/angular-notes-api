@@ -1,0 +1,51 @@
+$grey: #757575;
+
+:host {
+  width: 100%;
+}
+
+.welcome {
+  padding: 3rem 0;
+  text-align: center;
+  img {
+    width: 40%;
+  }
+}
+
+header {
+
+  .info {
+    padding-left: 5%;
+  }
+
+  .name {
+    text-align: center;
+    font-size: 2rem;
+    padding: 1.5rem 0;
+  }
+}
+
+.note {
+  padding: 1rem 5%;
+}
+
+.folder {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 2rem;
+}
+
+.item {
+  padding: 20%;
+  cursor: pointer;
+  text-align: center;
+  .item-icon {
+    color: $grey;
+    font-size: 3rem;
+  }
+}
+
+.item:hover {
+  background-color: rgba($color: #000000, $alpha: 0.1);
+}

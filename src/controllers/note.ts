@@ -5,10 +5,10 @@ import Note from '../models/Note';
 import errorHandler from '../utils/error-handler';
 import { ClientSession } from 'mongoose';
 
-
+//TODO: fix this awful thing. Maybe re-design db structure
 export async function getAllAsTree (req: Request, res: Response){
     try {
-      let notes: INote[] = await Note.find();
+      let notes: INote[] = await Note.find().populate('user');
       notes = notes.map<INote>(note => {
         if(note.children)
         note.children = note.children.map<INote>((childId: String | INote)=>{
@@ -36,7 +36,7 @@ export async function getAll (req: Request, res: Response){
   }
 }
 
-export async function create (req: TRequest, res: Response){
+export async function create(req: TRequest, res: Response){
     try {
       let note: INote = getNoteFromRequest(req);
 
@@ -61,13 +61,15 @@ function getNoteFromRequest(req: TRequest): INote {
   return req.body.isFolder ? {
     name: req.body.name,
     isFolder: true,
-    user: req?.user?._id,
+    user: req?.user?.email,
+    date: Date.now().toString(),
     parent: req.body.parent,
     children: []
   } : {
     name: req.body.name,
     isFolder: false,
-    user: req?.user?._id,
+    user: req?.user?.email,
+    date: Date.now().toString(),
     parent: req.body.parent,
     content: req.body.content
   }

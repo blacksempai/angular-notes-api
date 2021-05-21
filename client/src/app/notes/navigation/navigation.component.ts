@@ -1,8 +1,8 @@
+import { Note } from './../../shared/models/note.model';
 import { NoteService } from '../../shared/services/note.service';
-import { Note } from '../../shared/models/note.model';
 import { Component } from '@angular/core';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { FlatTreeControl } from '@angular/cdk/tree';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { NestedTreeControl } from '@angular/cdk/tree';
 import { Output, EventEmitter } from '@angular/core';
 
 
@@ -22,52 +22,23 @@ export interface FlatTreeNode {
 export class NavigationComponent {
 
   @Output() noteSelectedEvent = new EventEmitter<Note>();
+  selectedNote: Note;
 
   noteSelect(note: Note) {
-    this.noteSelectedEvent.emit(note);
+    this.selectedNote = note;
+    this.noteSelectedEvent.emit(this.selectedNote);
   }
 
-  treeControl: FlatTreeControl<FlatTreeNode>;
-  treeFlattener: MatTreeFlattener<Note, FlatTreeNode>;
-  dataSource: MatTreeFlatDataSource<Note, FlatTreeNode>;
+  treeControl: NestedTreeControl<Note>;
+  dataSource: MatTreeNestedDataSource<Note>;
 
   constructor(private noteService: NoteService) {
-    this.treeFlattener = new MatTreeFlattener(
-      this.transformer,
-      this.getLevel,
-      this.isExpandable,
-      this.getChildren);
-
-    this.treeControl = new FlatTreeControl(this.getLevel, this.isExpandable);
-    this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+    this.treeControl = new NestedTreeControl(note => note.children);
+    this.dataSource = new MatTreeNestedDataSource();
     this.noteService.getNotes().subscribe(data =>{
       this.dataSource.data = data;
     });
   }
 
-  transformer(node: Note, level: number): FlatTreeNode {
-    return {
-      name: node.name,
-      isFolder: node.isFolder,
-      content: node.content,
-      level,
-      expandable: !!node.children
-    };
-  }
-
-  getLevel(node: FlatTreeNode): number {
-    return node.level;
-  }
-
-  isExpandable(node: FlatTreeNode): boolean {
-    return node.expandable;
-  }
-
-  hasChild(index: number, node: FlatTreeNode): boolean {
-    return node.expandable;
-  }
-
-  getChildren(node: Note): Note[] | null | undefined {
-    return node.children;
-  }
+  hasChild = (_: number, node: Note) => !!node.children && node.children.length > 0;
 }

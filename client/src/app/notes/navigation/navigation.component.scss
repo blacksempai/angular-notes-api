@@ -1,9 +1,17 @@
 @import '~@angular/material/theming';
 @include mat-core();
-$primary: mat-color(mat-palette($mat-indigo,800));
+$primary: mat-color(mat-palette($mat-indigo,500));
 $secondary: mat-color(mat-palette($mat-indigo,200));
 $accent: mat-color(mat-palette($mat-pink,500));
 $grey: #757575;
+
+mat-tree .mat-nested-tree-node div[role=group] {
+  padding-left: 40px;
+}
+
+mat-tree div[role=group] > .mat-tree-node {
+  padding-left: 40px;
+}
 
 .control-icon {
   color: $grey;
@@ -35,4 +43,16 @@ $grey: #757575;
 .control-icon:hover {
   background-color: #ddd;
   border-radius: 3px;
+}
+
+.tree-invisible {
+  display: none;
+}
+
+.active {
+  color: $primary;
+  font-weight: 600;
+  .type-icon {
+    color: inherit;
+  }
 }
