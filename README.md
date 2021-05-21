@@ -3,14 +3,14 @@ Simple Web-app for making a notes.
 
 ## Technologies
 Front-end:
-*Angular 11
-*TypeScript
-*SCSS
+*Angular 11.
+*TypeScript.
+*SCSS.
 
 Back-end:
-*NodeJS
-*TypeScript
-*Express
+*NodeJS.
+*TypeScript.
+*Express.
 
 ## Run instructions
 Clone repo:
