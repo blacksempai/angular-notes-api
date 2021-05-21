@@ -19,6 +19,11 @@ const noteSchema = new Schema({
         ref: 'users',
         required: true
     },
+    date: {
+        type: Date,
+        default: Date.now,
+        required: true
+    },
     parent: {
         type: Schema.Types.ObjectId,
         ref: 'notes'

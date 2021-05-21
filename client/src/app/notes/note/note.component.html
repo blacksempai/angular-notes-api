@@ -1,3 +1,16 @@
-<p *ngIf="note">
+<div *ngIf="note">
+  <ng-template *ngIf="!note.isFolder; else folder">
+
+  </ng-template>
+  <ng-template #folder>
+
+  </ng-template>
   {{ note.content }}
-</p>
+</div>
+
+<ng-template #welcome>
+  <h1>Welcome to Angular Notes App</h1>
+  <p>
+    You can start from creating or oppening a note from Side Navigation Bar.
+  </p>
+</ng-template>

@@ -1,16 +1,22 @@
-<mat-toolbar>
-  <span>Angular Notes</span>
-</mat-toolbar>
-<mat-drawer-container class="container" autosize>
-  <mat-drawer #drawer class="sidenav" mode="side">
-    <app-navigation (noteSelectedEvent)="selectNote($event)"></app-navigation>
-  </mat-drawer>
-
-  <div class="sidenav-content">
-    <app-note [note]="selectedNote"></app-note>
-    <button type="button" mat-button (click)="drawer.toggle()">
-      Toggle sidenav
+<mat-toolbar class="toolbar" color="primary">
+  <div class="home">
+    <button mat-icon-button aria-label="Side bar toggler" (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1>Angular Notes</h1>
+  </div>
+  <div class="profile">
+    <button mat-icon-button aria-label="User profile button">
+      <mat-icon class="profile-icon">account_circle</mat-icon>
     </button>
   </div>
-
+</mat-toolbar>
+<mat-drawer-container class="container" autosize>
+  <mat-drawer #drawer class="sidenav" mode="side" opened>
+    <app-navigation (noteSelectedEvent)="selectNote($event)"></app-navigation>
+  </mat-drawer>
+  <div class="content">
+    <app-note [note]="selectedNote"></app-note>
+  </div>
 </mat-drawer-container>
+

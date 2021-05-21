@@ -1,4 +1,4 @@
-import { Note } from './shared/note.model';
+import { Note } from '../shared/models/note.model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

@@ -1,5 +1,5 @@
-import { NoteService } from './../shared/note.service';
-import { Note } from './../shared/note.model';
+import { NoteService } from '../../shared/services/note.service';
+import { Note } from '../../shared/models/note.model';
 import { Component } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { FlatTreeControl } from '@angular/cdk/tree';

@@ -1,12 +1,16 @@
 @import '~@angular/material/theming';
 @include mat-core();
+$primary: mat-color(mat-palette($mat-indigo,800));
+$secondary: mat-color(mat-palette($mat-indigo,200));
+$accent: mat-color(mat-palette($mat-pink,500));
+$grey: #757575;
 
-$primary: mat-palette($mat-blue,800);
-$secondary: mat-palette($mat-indigo,200);
-$accent: mat-palette($mat-pink,500);
+.control-icon {
+  color: $grey;
+}
 
 .type-icon {
-  color: #757575;
+  color: $grey;
   margin-right: 5px;
 }
 
@@ -28,7 +32,7 @@ $accent: mat-palette($mat-pink,500);
   }
 }
 
-.type-icon:hover {
+.control-icon:hover {
   background-color: #ddd;
   border-radius: 3px;
 }
