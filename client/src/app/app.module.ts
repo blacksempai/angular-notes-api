@@ -1,3 +1,5 @@
+import { DeleteNoteComponent } from './notes/modals/delete-note/delete-note.component';
+import { EditNoteComponent } from './notes/modals/edit-note/edit-note.component';
 import { TokenInterceptor } from './shared/classes/token.interceptor';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,6 +17,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { AuthComponent } from './auth/auth.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { CreateNoteComponent } from './notes/modals/create-note/create-note.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
     NotesComponent,
     LoginComponent,
     RegisterComponent,
-    AuthComponent
+    AuthComponent,
+    CreateNoteComponent,
+    EditNoteComponent,
+    DeleteNoteComponent
    ],
   imports: [
     BrowserModule,

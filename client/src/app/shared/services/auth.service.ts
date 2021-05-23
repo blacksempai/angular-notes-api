@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from './../models/user.model';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class AuthService {
 
   private token: string = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private router: Router) { }
 
   login(user: User): Observable<{token: string}> {
     return this.http.post<{token: string}>('/api/auth/login',user)
@@ -44,5 +46,6 @@ export class AuthService {
   logout() {
     this.setToken(null);
     localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }

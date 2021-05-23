@@ -6,17 +6,20 @@
     <h1>Angular Notes</h1>
   </div>
   <div class="profile">
-    <button mat-icon-button aria-label="User profile button">
+    <button mat-icon-button aria-label="User profile button" [matMenuTriggerFor]="menu">
       <mat-icon class="profile-icon">account_circle</mat-icon>
     </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
   </div>
 </mat-toolbar>
 <mat-drawer-container class="container" autosize>
   <mat-drawer #drawer class="sidenav" mode="side" opened>
-    <app-navigation (noteSelectedEvent)="selectNote($event)"></app-navigation>
+    <app-navigation [selectedNote]="selectedNote" (noteSelectedEvent)="selectNote($event)"></app-navigation>
   </mat-drawer>
   <div class="content">
-    <app-note [note]="selectedNote"></app-note>
+    <app-note [note]="selectedNote" (noteChange)="selectedNote = $event"></app-note>
   </div>
 </mat-drawer-container>
 

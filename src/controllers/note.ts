@@ -61,14 +61,14 @@ function getNoteFromRequest(req: TRequest): INote {
   return req.body.isFolder ? {
     name: req.body.name,
     isFolder: true,
-    user: req?.user?.email,
+    user: req?.user?._id,
     date: Date.now().toString(),
     parent: req.body.parent,
     children: []
   } : {
     name: req.body.name,
     isFolder: false,
-    user: req?.user?.email,
+    user: req?.user?._id,
     date: Date.now().toString(),
     parent: req.body.parent,
     content: req.body.content
@@ -97,10 +97,10 @@ export async function remove (req: Request, res: Response){
       const session = await Note.startSession();
       await session.withTransaction(async () => {
         await Note.updateOne(
-          { _id: req.body.parent},
-          {$pull: {children:{_id:req.body._id}}},
+          {children: { "$in" : [req.params.id]} },
+          {$pull: {children:{_id:req.params.id}}},
           {session});
-        removeRecursive(req.body._id,session);
+        removeRecursive(req.params.id,session);
       });
       session.endSession();
       res.status(200).json({

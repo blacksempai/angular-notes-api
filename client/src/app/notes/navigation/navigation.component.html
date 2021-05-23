@@ -23,24 +23,24 @@
         {{ note.isFolder ? 'folder' : 'description' }}
       </mat-icon>
         {{note.name}}
-        <div class="controls">
-          <button mat-icon-button *ngIf="note.isFolder">
-            <mat-icon class="control-icon" matTooltip="Create new note"
-            aria-label="Button for creating a new note">note_add</mat-icon>
-          </button>
-          <button mat-icon-button *ngIf="note.isFolder">
-            <mat-icon class="control-icon" matTooltip="Create new folder"
-            aria-label="Button for creating a new folder">create_new_folder</mat-icon>
-          </button>
-          <button mat-icon-button>
-            <mat-icon class="control-icon" matTooltip="Edit"
-            aria-label="Button for editing">edit</mat-icon>
-          </button>
-          <button mat-icon-button>
-            <mat-icon class="control-icon" matTooltip="Delete"
-            aria-label="Button for deleting">delete</mat-icon>
-          </button>
-        </div>
+    </div>
+    <div class="controls">
+      <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateDialog(note)">
+        <mat-icon class="control-icon" matTooltip="Create new note"
+        aria-label="Button for creating a new note">note_add</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="note.isFolder">
+        <mat-icon class="control-icon" matTooltip="Create new folder"
+        aria-label="Button for creating a new folder">create_new_folder</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon class="control-icon" matTooltip="Edit"
+        aria-label="Button for editing">edit</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon class="control-icon" matTooltip="Delete"
+        aria-label="Button for deleting" (click)="openDeleteDialog(note)">delete</mat-icon>
+      </button>
     </div>
   </mat-tree-node>
   <mat-nested-tree-node *matTreeNodeDef="let note; when: hasChild">
@@ -56,24 +56,24 @@
             {{ note.isFolder ? 'folder' : 'description' }}
           </mat-icon>
             {{note.name}}
-            <div class="controls">
-              <button mat-icon-button *ngIf="note.isFolder">
-                <mat-icon class="control-icon" matTooltip="Create new note"
-                aria-label="Button for creating a new note">note_add</mat-icon>
-              </button>
-              <button mat-icon-button *ngIf="note.isFolder">
-                <mat-icon class="control-icon" matTooltip="Create new folder"
-                aria-label="Button for creating a new folder">create_new_folder</mat-icon>
-              </button>
-              <button mat-icon-button>
-                <mat-icon class="control-icon" matTooltip="Edit"
-                aria-label="Button for editing">edit</mat-icon>
-              </button>
-              <button mat-icon-button>
-                <mat-icon class="control-icon" matTooltip="Delete"
-                aria-label="Button for deleting">delete</mat-icon>
-              </button>
-            </div>
+        </div>
+        <div class="controls">
+          <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateDialog(note)">
+            <mat-icon class="control-icon" matTooltip="Create new note"
+            aria-label="Button for creating a new note">note_add</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="note.isFolder">
+            <mat-icon class="control-icon" matTooltip="Create new folder"
+            aria-label="Button for creating a new folder">create_new_folder</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon class="control-icon" matTooltip="Edit"
+            aria-label="Button for editing">edit</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon class="control-icon" matTooltip="Delete"
+            aria-label="Button for deleting" (click)="openDeleteDialog(note)">delete</mat-icon>
+          </button>
         </div>
       </div>
       <div [class.tree-invisible]="!treeControl.isExpanded(note)"

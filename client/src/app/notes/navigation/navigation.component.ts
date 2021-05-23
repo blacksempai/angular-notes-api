@@ -1,9 +1,13 @@
+import { EditNoteComponent } from './../modals/edit-note/edit-note.component';
+import { DeleteNoteComponent } from './../modals/delete-note/delete-note.component';
 import { Note } from './../../shared/models/note.model';
 import { NoteService } from '../../shared/services/note.service';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateNoteComponent } from '../modals/create-note/create-note.component';
 
 
 export interface FlatTreeNode {
@@ -22,7 +26,7 @@ export interface FlatTreeNode {
 export class NavigationComponent {
 
   @Output() noteSelectedEvent = new EventEmitter<Note>();
-  selectedNote: Note;
+  @Input() selectedNote: Note;
 
   noteSelect(note: Note) {
     this.selectedNote = note;
@@ -32,7 +36,7 @@ export class NavigationComponent {
   treeControl: NestedTreeControl<Note>;
   dataSource: MatTreeNestedDataSource<Note>;
 
-  constructor(private noteService: NoteService) {
+  constructor(private noteService: NoteService, public dialog: MatDialog) {
     this.treeControl = new NestedTreeControl(note => note.children);
     this.dataSource = new MatTreeNestedDataSource();
     this.noteService.getNotes().subscribe(data =>{
@@ -41,4 +45,43 @@ export class NavigationComponent {
   }
 
   hasChild = (_: number, node: Note) => !!node.children && node.children.length > 0;
+
+  openCreateDialog(note: Note): void {
+    const dialogRef = this.dialog.open(CreateNoteComponent, {
+      width: '500px',
+      data: note
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.noteService.create(result);
+      }
+    });
+  }
+
+  openEditDialog(note: Note): void {
+    const dialogRef = this.dialog.open(EditNoteComponent, {
+      width: '500px',
+      data: note
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+
+      }
+    });
+  }
+
+  openDeleteDialog(note: Note): void {
+    const dialogRef = this.dialog.open(DeleteNoteComponent, {
+      width: '500px',
+      data: note
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.noteService.delete(result).subscribe((r)=>console.log(r))
+      }
+    });
+  }
 }

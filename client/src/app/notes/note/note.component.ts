@@ -1,18 +1,19 @@
 import { Note } from '../../shared/models/note.model';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-note',
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.scss']
 })
-export class NoteComponent implements OnInit {
+export class NoteComponent {
 
   @Input() note: Note;
+  @Output() noteChange = new EventEmitter<Note>();
 
-  constructor() { }
-
-  ngOnInit() {
+  open(note: Note) {
+    this.note = note;
+    this.noteChange.emit(this.note);
   }
 
 }
