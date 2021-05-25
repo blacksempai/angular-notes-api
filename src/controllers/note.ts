@@ -96,11 +96,16 @@ export async function remove (req: Request, res: Response){
     try {
       const session = await Note.startSession();
       await session.withTransaction(async () => {
-        await Note.updateOne(
-          {children: { "$in" : [req.params.id]} },
-          {$pull: {children:{_id:req.params.id}}},
-          {session});
-        removeRecursive(req.params.id,session);
+        try {
+          await Note.updateOne(
+            { "children": req.params.id },
+            {$pull: {"children": req.params.id}},
+            {session});
+          removeRecursive(req.params.id,session,res);
+        }
+        catch(e) {
+          errorHandler(res, e);
+        }
       });
       session.endSession();
       res.status(200).json({
@@ -112,9 +117,14 @@ export async function remove (req: Request, res: Response){
     }
 }
 
-async function removeRecursive(noteId: String, session: ClientSession){
-  const note = await Note.findByIdAndRemove({ _id: noteId},{session});
-  if (note.children){
-    note.children.forEach((n: String) => removeRecursive(n, session))
+async function removeRecursive(noteId: String, session: ClientSession, res: Response){
+  try{
+    const note = await Note.findByIdAndRemove({ _id: noteId},{session});
+    if (note.children){
+      note.children.forEach((n: String) => removeRecursive(n, session,res))
+    }
+  }
+  catch(e){
+    errorHandler(res,e);
   }
 }

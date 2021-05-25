@@ -1,3 +1,18 @@
-<p>
-  edit-note works!
-</p>
+<h1 mat-dialog-title>Edit {{ note.isFolder ? "Folder" : "Note" }}</h1>
+<div mat-dialog-content class="flex">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="note.name" required #name="ngModel">
+    <mat-error *ngIf="!name.valid">
+      <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field *ngIf="!note.isFolder">
+    <mat-label>Content</mat-label>
+    <textarea matInput rows="18" [(ngModel)]="note.content"></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="note" [disabled]="!name.valid">Update</button>
+</div>

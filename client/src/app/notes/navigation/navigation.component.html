@@ -7,11 +7,11 @@
     <mat-label>Search</mat-label>
     <input matInput aria-label="Search input">
   </mat-form-field>
-  <button mat-icon-button>
+  <button mat-icon-button (click)="openCreateNoteDialog(null)">
     <mat-icon class="control-icon" matTooltip="Create new note"
     aria-label="Button for creating a new note">note_add</mat-icon>
   </button>
-  <button mat-icon-button>
+  <button mat-icon-button (click)="openCreateFolderDialog(null)">
     <mat-icon class="control-icon" matTooltip="Create new folder"
     aria-label="Button for creating a new folder">create_new_folder</mat-icon>
   </button>
@@ -25,21 +25,21 @@
         {{note.name}}
     </div>
     <div class="controls">
-      <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateDialog(note)">
+      <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateNoteDialog(note)">
         <mat-icon class="control-icon" matTooltip="Create new note"
         aria-label="Button for creating a new note">note_add</mat-icon>
       </button>
-      <button mat-icon-button *ngIf="note.isFolder">
+      <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateFolderDialog(note)">
         <mat-icon class="control-icon" matTooltip="Create new folder"
         aria-label="Button for creating a new folder">create_new_folder</mat-icon>
       </button>
-      <button mat-icon-button>
+      <button mat-icon-button (click)="openEditDialog(note)">
         <mat-icon class="control-icon" matTooltip="Edit"
         aria-label="Button for editing">edit</mat-icon>
       </button>
-      <button mat-icon-button>
+      <button mat-icon-button (click)="openDeleteDialog(note)">
         <mat-icon class="control-icon" matTooltip="Delete"
-        aria-label="Button for deleting" (click)="openDeleteDialog(note)">delete</mat-icon>
+        aria-label="Button for deleting">delete</mat-icon>
       </button>
     </div>
   </mat-tree-node>
@@ -58,21 +58,21 @@
             {{note.name}}
         </div>
         <div class="controls">
-          <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateDialog(note)">
+          <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateNoteDialog(note)">
             <mat-icon class="control-icon" matTooltip="Create new note"
             aria-label="Button for creating a new note">note_add</mat-icon>
           </button>
-          <button mat-icon-button *ngIf="note.isFolder">
+          <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateFolderDialog(note)">
             <mat-icon class="control-icon" matTooltip="Create new folder"
             aria-label="Button for creating a new folder">create_new_folder</mat-icon>
           </button>
-          <button mat-icon-button>
+          <button mat-icon-button (click)="openEditDialog(note)">
             <mat-icon class="control-icon" matTooltip="Edit"
             aria-label="Button for editing">edit</mat-icon>
           </button>
-          <button mat-icon-button>
+          <button mat-icon-button (click)="openDeleteDialog(note)">
             <mat-icon class="control-icon" matTooltip="Delete"
-            aria-label="Button for deleting" (click)="openDeleteDialog(note)">delete</mat-icon>
+            aria-label="Button for deleting">delete</mat-icon>
           </button>
         </div>
       </div>

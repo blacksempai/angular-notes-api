@@ -12,12 +12,12 @@ export class CreateNoteComponent implements OnInit {
   note: Note;
 
   constructor(public dialogRef: MatDialogRef<CreateNoteComponent>,
-              @Inject(MAT_DIALOG_DATA) public parentFolder: Note) { }
+              @Inject(MAT_DIALOG_DATA) public data : {isFolder: boolean, parent: Note}) { }
 
   ngOnInit(){
     this.note = {
-      parent: this.parentFolder._id,
-      isFolder: false,
+      parent: this.data.parent ? this.data.parent._id : null,
+      isFolder: this.data.isFolder,
       name: '',
       content: ''
     }

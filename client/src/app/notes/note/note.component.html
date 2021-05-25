@@ -7,9 +7,7 @@
     </div>
   </header>
   <mat-divider></mat-divider>
-  <div class="note" *ngIf="!note.isFolder; else folder">
-    {{ note.content }}
-  </div>
+  <mat-card class="note" *ngIf="!note.isFolder; else folder">{{note.content}}</mat-card>
   <ng-template #folder>
     <div class="folder">
       <div class="item" *ngFor="let item of note.children" (click)="open(item)">

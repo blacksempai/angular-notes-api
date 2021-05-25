@@ -23,7 +23,7 @@ export class NoteService {
   }
 
   update(note: Note) {
-    return this.http.patch<Note>('/api/note', note, {params:{id: note._id}});
+    return this.http.patch<Note>(`/api/note/${note._id}`, note);
   }
 
   delete(note: Note): Observable<Message> {
