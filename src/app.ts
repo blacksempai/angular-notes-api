@@ -23,8 +23,8 @@ app.use(cors());
 app.use('/api/auth', authRoutes);
 app.use('/api/note', noteRoutes);
 
-    app.use(express.static('../client/dist/client'));
-    app.get('/', (req, res) => {
+    app.use(express.static('../client/dist/angular-notes'));
+    app.get('/index.html', (req, res) => {
         res.sendFile(path.resolve(__dirname, '..', 'client', 'dist', 'angular-notes', 'index.html'));
     });
 export { app };
