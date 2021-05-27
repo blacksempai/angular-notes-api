@@ -1,10 +1,11 @@
+import path from 'path';
 import express from 'express';
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 import passport from 'passport';
 import cors from 'cors';
 import morgan from 'morgan';
-import config from './config/config'
-import passportConfig from './middleware/passport'
+import config from './config/config';
+import passportConfig from './middleware/passport';
 import { router as authRoutes } from './routes/auth';
 import { router as noteRoutes } from './routes/note';
 
@@ -21,5 +22,12 @@ app.use(express.json());
 app.use(cors());
 app.use('/api/auth', authRoutes);
 app.use('/api/note', noteRoutes);
+
+if(process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/dist/client'));
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'dist', 'client', 'index.html'));
+    });
+}
 
 export { app };
