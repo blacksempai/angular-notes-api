@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const noteSchema = new Schema({
     name: {
         type: String,
+        unique : true,
         required: true
     },
     isFolder: {
@@ -24,17 +25,10 @@ const noteSchema = new Schema({
         default: Date.now,
         required: true
     },
-    parent: {
-        type: Schema.Types.ObjectId,
-        ref: 'notes'
-    },
-    children:{
-        type:[{ 
-            type: Schema.Types.ObjectId,
-            ref: 'notes'
-        }],
-        default: undefined
-    } 
+    path: {
+        type: String,
+        required: true
+    }
 });
 const Note = mongoose.model('notes', noteSchema);
 

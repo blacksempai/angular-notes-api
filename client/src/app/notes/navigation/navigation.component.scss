@@ -1,15 +1,9 @@
 @import '~@angular/material/theming';
 @include mat-core();
 $primary: mat-color(mat-palette($mat-indigo,500));
-$secondary: mat-color(mat-palette($mat-indigo,200));
-$accent: mat-color(mat-palette($mat-pink,500));
 $grey: #757575;
 
 mat-tree .mat-nested-tree-node div[role=group] {
-  padding-left: 40px;
-}
-
-mat-tree div[role=group] > .mat-tree-node {
   padding-left: 40px;
 }
 

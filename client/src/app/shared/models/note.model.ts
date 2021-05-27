@@ -6,7 +6,7 @@ export interface Note {
   isFolder: boolean;
   user?: User;
   date?: string;
-  parent: string;
+  path: string;
   content?: string;
   children?: Note[];
 }

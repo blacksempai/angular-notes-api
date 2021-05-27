@@ -1,6 +1,6 @@
 <div *ngIf="note; else welcome">
   <header>
-    <div class="name">{{ note.name }}</div>
+    <div class="name">{{ note.name ? 'note.name' : 'You' }}</div>
     <div class="info">
       <p>User: {{ note.user.email }}</p>
       <p>Date: {{ note.date | date:'short' }}</p>
@@ -10,6 +10,7 @@
   <mat-card class="note" *ngIf="!note.isFolder; else folder">{{note.content}}</mat-card>
   <ng-template #folder>
     <div class="folder">
+      <p *ngIf="!note.children.length">This folder is empty</p>
       <div class="item" *ngFor="let item of note.children" (click)="open(item)">
         <mat-icon [inline]="true" class="item-icon">{{ item.isFolder ? 'folder' : 'description' }}</mat-icon>
         <div class="item-name">{{ item.name }}</div>

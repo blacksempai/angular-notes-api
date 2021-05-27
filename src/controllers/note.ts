@@ -1,130 +1,57 @@
 import { TRequest } from '../interfaces/tRequest';
 import { INote } from '../interfaces/INote';
-import { Request ,Response } from 'express';
-import Note from '../models/Note';
+import { Request, Response } from 'express';
 import errorHandler from '../utils/error-handler';
-import { ClientSession } from 'mongoose';
+import Note from '../models/Note';
 
-//TODO: fix this awful thing. Maybe re-design db structure
-export async function getAllAsTree (req: Request, res: Response){
-    try {
-      let notes: INote[] = await Note.find().populate('user');
-      notes = notes.map<INote>(note => {
-        if(note.children)
-        note.children = note.children.map<INote>((childId: String | INote)=>{
-          let child = notes.find(n =>{
-            return n._id?.toString() == childId.toString();
-          });
-          if(child) return child;
-          else throw 'DB structure is corrupted';
-        })
-        return note;
-      }).filter(note => !note.parent);
-      res.status(200).json(notes);
-    }
-    catch(e) {
-      errorHandler(res, e);
-    }
-}
+
 export async function getAll (req: Request, res: Response){
   try {
-    let notes: INote[] = await Note.find();
+    const notes = await Note.find().populate('user');
     res.status(200).json(notes);
-  }
-  catch(e) {
+  } catch (e) {
     errorHandler(res, e);
   }
 }
 
+//TODO: Check if parent folder exists, populate with user before sent back
 export async function create(req: TRequest, res: Response){
-    try {
-      let note: INote = getNoteFromRequest(req);
-
-      const session = await Note.startSession();
-      await session.withTransaction(async () => {
-        note = await new Note(note).save({session});
-        if(note.parent) await Note.findByIdAndUpdate(
-          { _id: note.parent },
-          { $push: { children: [note._id] } },
-          { new: true, session});
-      });
-      session.endSession();
-
-      res.status(201).json(note);
-    }
-    catch(e) {
-      errorHandler(res, e);
-    }
-}
-
-function getNoteFromRequest(req: TRequest): INote {
-  return req.body.isFolder ? {
-    name: req.body.name,
-    isFolder: true,
-    user: req?.user?._id,
-    date: Date.now().toString(),
-    parent: req.body.parent,
-    children: []
-  } : {
-    name: req.body.name,
-    isFolder: false,
-    user: req?.user?._id,
-    date: Date.now().toString(),
-    parent: req.body.parent,
-    content: req.body.content
+  try {
+    const note = await new Note({
+      name: req.body.name,
+      isFolder: req.body.isFolder,
+      content: req.body.content,
+      date: Date.now().toString(),
+      path: req.body.path,
+      user: req.user?._id,
+    }).save();
+    res.status(201).json(note);
+  } catch (e) {
+    errorHandler(res, e);
   }
 }
 
 
 export async function update (req: Request, res: Response){
-    try {
-      let note: INote;
-      if(req.body.isFolder){
-        note = await Note.findOneAndUpdate({ _id: req.body._id }, {name: req.body.name }, {new: true});
-      }
-      else {
-        note = await Note.findOneAndUpdate({ _id: req.body._id }, {$set: req.body}, {new: true});
-      }
-      res.status(200).json(note);
-    }
-    catch(e) {
-      errorHandler(res, e);
-    }
+   try {
+     const note = await Note.findByIdAndUpdate(
+      {_id: req.body._id},
+      {name: req.body.name, content: req.body.content},
+      {new: true});
+      res.status(200).json(note); 
+   } catch (e) {
+     errorHandler(res, e);
+   }
 }
 
+//TODO: Wrap in session
 export async function remove (req: Request, res: Response){
-    try {
-      const session = await Note.startSession();
-      await session.withTransaction(async () => {
-        try {
-          await Note.updateOne(
-            { "children": req.params.id },
-            {$pull: {"children": req.params.id}},
-            {session});
-          removeRecursive(req.params.id,session,res);
-        }
-        catch(e) {
-          errorHandler(res, e);
-        }
-      });
-      session.endSession();
-      res.status(200).json({
-        message: "Removed successfully"
-      });
-    }
-    catch(e) {
-      errorHandler(res, e);
-    }
-}
-
-async function removeRecursive(noteId: String, session: ClientSession, res: Response){
-  try{
-    const note = await Note.findByIdAndRemove({ _id: noteId},{session});
-    if (note.children){
-      note.children.forEach((n: String) => removeRecursive(n, session,res))
-    }
-  }
-  catch(e){
-    errorHandler(res,e);
+  try {
+    const note = await Note.findOneAndDelete({_id: req.params.id});
+    const regexp = new RegExp("^"+ note.path+note.name+"/");
+    await Note.deleteMany({path: regexp});
+    res.status(200).json({message: (note.isFolder ? 'Folder' : 'Note') + ' has been deleted' });
+  } catch (e) {
+    errorHandler(res, e);
   }
 }

@@ -1,8 +1,8 @@
-<h1 mat-dialog-title>Delete the {{ note.name }} {{ note.isFolder ? 'folder' : 'note' }}</h1>
+<h1 mat-dialog-title>You are going to DELETE the {{ note.name }} {{ note.isFolder ? 'folder' : 'note' }}</h1>
 <div mat-dialog-content>
   Are You Sure?
 </div>
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close>No</button>
-  <button mat-raised-button color="warn" [mat-dialog-close]="note">Yes</button>
+  <button mat-button mat-dialog-close>NO</button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="note">YES</button>
 </div>

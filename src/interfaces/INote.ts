@@ -4,7 +4,6 @@ export interface INote {
     isFolder: Boolean;
     user?: String;
     date?: String;
-    parent: String;
     content?: String;
-    children?: Array<INote | String>;
+    path: String;
   }

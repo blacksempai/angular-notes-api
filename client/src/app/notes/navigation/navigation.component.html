@@ -1,23 +1,29 @@
 <div>
-  <button mat-icon-button>
+  <button mat-icon-button [matMenuTriggerFor]="filterMenu">
     <mat-icon class="control-icon" matTooltip="Filter search"
     aria-label="Button for filtering search">filter_alt</mat-icon>
   </button>
+  <mat-menu #filterMenu="matMenu">
+    <button mat-menu-item (click)="setFilterByName()">Filter by name</button>
+    <button mat-menu-item (click)="setFilterByContent()">Filter by content</button>
+  </mat-menu>
   <mat-form-field>
     <mat-label>Search</mat-label>
-    <input matInput aria-label="Search input">
+    <input matInput aria-label="Search input" [formControl]="filterField" (input)="filterChanged()">
   </mat-form-field>
-  <button mat-icon-button (click)="openCreateNoteDialog(null)">
+  <button mat-icon-button (click)="openCreateDialog('root/',false)">
     <mat-icon class="control-icon" matTooltip="Create new note"
     aria-label="Button for creating a new note">note_add</mat-icon>
   </button>
-  <button mat-icon-button (click)="openCreateFolderDialog(null)">
+  <button mat-icon-button (click)="openCreateDialog('root/',true)">
     <mat-icon class="control-icon" matTooltip="Create new folder"
     aria-label="Button for creating a new folder">create_new_folder</mat-icon>
   </button>
 </div>
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
   <mat-tree-node *matTreeNodeDef="let note" matTreeNodeToggle>
+    <button mat-icon-button disabled="true" hidden="true"> <!--Костыль для того чтобы выровнять иконки-->
+    </button>
     <div class="node" (click)="noteSelect(note)" [ngClass]="{active: note==selectedNote}">
       <mat-icon class="type-icon">
         {{ note.isFolder ? 'folder' : 'description' }}
@@ -25,11 +31,11 @@
         {{note.name}}
     </div>
     <div class="controls">
-      <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateNoteDialog(note)">
+      <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateDialog(note.path+note.name+'/',false)">
         <mat-icon class="control-icon" matTooltip="Create new note"
         aria-label="Button for creating a new note">note_add</mat-icon>
       </button>
-      <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateFolderDialog(note)">
+      <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateDialog(note.path+note.name+'/',true)">
         <mat-icon class="control-icon" matTooltip="Create new folder"
         aria-label="Button for creating a new folder">create_new_folder</mat-icon>
       </button>
@@ -58,11 +64,11 @@
             {{note.name}}
         </div>
         <div class="controls">
-          <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateNoteDialog(note)">
+          <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateDialog(note.path+note.name+'/',false)">
             <mat-icon class="control-icon" matTooltip="Create new note"
             aria-label="Button for creating a new note">note_add</mat-icon>
           </button>
-          <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateFolderDialog(note)">
+          <button mat-icon-button *ngIf="note.isFolder" (click)="openCreateDialog(note.path+note.name+'/',true)">
             <mat-icon class="control-icon" matTooltip="Create new folder"
             aria-label="Button for creating a new folder">create_new_folder</mat-icon>
           </button>
