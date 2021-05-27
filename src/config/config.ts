@@ -1,12 +1,6 @@
-import * as devConfig from './config.dev'
-import * as prodConfig from './config.prod'
+import { Secret } from "jsonwebtoken";
 
-let config;
-if(process.env.NODE_ENV === 'production') {
-    config = prodConfig;
+export default {
+    mongoURI: (<string>process.env.MONGO_URI),
+    jwt: (<Secret>process.env.JWT)
 }
-else {
-    config = devConfig;
-}
-
-export default config;

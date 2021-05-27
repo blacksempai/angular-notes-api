@@ -4,3 +4,4 @@
 /client/node_modules
 /client/etc
 /src/config/config.dev.ts
+.env
