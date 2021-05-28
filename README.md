@@ -26,7 +26,7 @@ npm i
 ```
 npm run client-install
 ```
-**Setup your mongoDB URI in [config.ts](/blob/main/src/config/config.ts)**
+**Setup your mongoDB URI in [config.ts](/src/config/config.ts)**
 
 Run development server:
 ```
