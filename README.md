@@ -1,5 +1,6 @@
 # Angular Notes
 Simple Web-app for making a notes. 
+**This ap is hosting on heroku. You can visit it via [link](https://dry-escarpment-57899.herokuapp.com/)**
 
 ## Technologies
 Front-end:
@@ -25,8 +26,7 @@ npm i
 ```
 npm run client-install
 ```
-**Create config.dev.ts file in [config](/blob/main/src/config) folder and setup your mongoDB URI in it.**
-You can find example in [config.prod.ts](/blob/main/src/config/config.prod.ts)
+**Setup your mongoDB URI in [config.ts](/blob/main/src/config/config.ts)**
 
 Run development server:
 ```
