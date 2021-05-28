@@ -1,8 +1,8 @@
 <div *ngIf="note; else welcome">
   <header>
-    <div class="name">{{ note.name ? 'note.name' : 'You' }}</div>
+    <div class="name">{{ note.name }}</div>
     <div class="info">
-      <p>User: {{ note.user.email }}</p>
+      <p>User: {{ note.user.email ? note.user.email : 'You' }}</p>
       <p>Date: {{ note.date | date:'short' }}</p>
     </div>
   </header>
