@@ -1,4 +1,4 @@
 export default {
-    mongoURI: 'mongodb+srv://root:root@cluster0.scuw0.mongodb.net/?retryWrites=true&w=majority',
+    mongoURI: '<YOUR_URI>',
     jwt: 'dev-jwt'
 }
