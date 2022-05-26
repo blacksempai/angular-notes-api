@@ -18,6 +18,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { AuthComponent } from './auth/auth.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { CreateNoteComponent } from './notes/modals/create-note/create-note.component';
+import { FilterSpecSymbolDirective } from './shared/directives/filter-spec-symbol.directive';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { CreateNoteComponent } from './notes/modals/create-note/create-note.comp
     AuthComponent,
     CreateNoteComponent,
     EditNoteComponent,
-    DeleteNoteComponent
+    DeleteNoteComponent,
+    FilterSpecSymbolDirective
    ],
   imports: [
     BrowserModule,

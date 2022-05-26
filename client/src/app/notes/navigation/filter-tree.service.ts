@@ -2,9 +2,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Note } from './../../shared/models/note.model';
 import { NoteService } from './../../shared/services/note.service';
 import { Injectable } from '@angular/core';
-import { map, switchMap, debounceTime, distinctUntilChanged, tap, catchError } from 'rxjs/operators';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tick } from '@angular/core/testing';
+import { map } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

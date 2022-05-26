@@ -2,7 +2,7 @@
 <div mat-dialog-content class="flex">
   <mat-form-field>
     <mat-label>Name</mat-label>
-    <input matInput [(ngModel)]="note.name" required #name="ngModel">
+    <input matInput [(ngModel)]="note.name" required #name="ngModel" pattern="[^/]+">
     <mat-error *ngIf="!name.valid">
       <strong>required</strong>
     </mat-error>
