@@ -9,7 +9,7 @@ import passportConfig from './middleware/passport';
 import { router as authRoutes } from './routes/auth';
 import { router as noteRoutes } from './routes/note';
 
-const mongoURI = config.mongoURI || process.env.MONGO_URI;
+const mongoURI = process.env.MONGO_URI || config.mongoURI;
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true,  useFindAndModify: false})
     .then(()=>{console.log('MongoDB Connected')})
