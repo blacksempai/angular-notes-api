@@ -1,4 +1,4 @@
 export default {
-    mongoURI: '<YOUR_URI>',
+    mongoURI: null, //PUT YOUR URI
     jwt: 'dev-jwt'
 }
