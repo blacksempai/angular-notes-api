@@ -1,6 +1,6 @@
 # Angular Notes
 Simple Web-app for making a collective notes. 
-**This ap is hosting on heroku. You can visit it via link: [https://dry-escarpment-57899.herokuapp.com/](https://dry-escarpment-57899.herokuapp.com/)**
+**This app is hosting on heroku. You can visit it via link: [https://dry-escarpment-57899.herokuapp.com/](https://dry-escarpment-57899.herokuapp.com/)**
 
 ## Technologies
 Front-end:
